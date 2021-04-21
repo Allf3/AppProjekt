@@ -31,7 +31,7 @@ namespace WebApi
         {
             services.AddControllers();
 
-            services.AddSingleton<IMeasurementService, MeasurementService>();
+            services.AddScoped<IMeasurementService, MeasurementService>();
 
             services.AddDbContext<ApiDBContext>(options => 
             options.UseSqlServer(Configuration.GetConnectionString("ApiDBConnectionstring")));

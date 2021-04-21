@@ -19,6 +19,10 @@ namespace DAL
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<Measurement>().HasData(
+                new Measurement { ID = Guid.NewGuid(), Date = DateTime.Now, Humidity = 0, Temperatur = 24 }
+                );
+
             base.OnModelCreating(modelBuilder);
         }
     }

@@ -59,7 +59,7 @@ namespace WebApi.Controllers
                 return BadRequest();
             }
 
-            if (!_service.MeasurementExists(guidid))
+            if (! await _service.MeasurementExists(guidid))
             {
                 return NotFound();
             }
@@ -82,7 +82,7 @@ namespace WebApi.Controllers
         {
             Guid guidid = Guid.Parse(id);
 
-            if (!_service.MeasurementExists(guidid))
+            if (! await _service.MeasurementExists(guidid))
             {
                 return NotFound();
             }
