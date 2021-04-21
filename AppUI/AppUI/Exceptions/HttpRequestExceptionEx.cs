@@ -1,10 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Net;
-using System.Net.Http;
+using System.Text;
 
-namespace DAL.Exceptions
+namespace AppUI.Exceptions
 {
-    public class HttpRequestExceptionEx : HttpRequestException
+    public class HttpRequestExceptionEx : Exception
     {
         public HttpStatusCode HttpCode { get; }
 

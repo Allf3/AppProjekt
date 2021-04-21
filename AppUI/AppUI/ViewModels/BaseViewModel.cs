@@ -1,16 +1,23 @@
-﻿using AppUI.Models;
-using AppUI.Services;
+﻿using AppUI.Services;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using Xamarin.Forms;
+using System.Text;
+using TinyIoC;
 
 namespace AppUI.ViewModels
 {
     public class BaseViewModel : INotifyPropertyChanged
     {
-        public IDataStore<Item> DataStore => DependencyService.Get<IDataStore<Item>>();
+        #region Construktor
+        protected readonly IMeasurementService _service;
+
+        public BaseViewModel()
+        {
+            _service = TinyIoCContainer.Current.Resolve<IMeasurementService>();
+        }
+        #endregion
 
         bool isBusy = false;
         public bool IsBusy
@@ -26,9 +33,9 @@ namespace AppUI.ViewModels
             set { SetProperty(ref title, value); }
         }
 
-        protected bool SetProperty<T>(ref T backingStore, T value,
-            [CallerMemberName] string propertyName = "",
-            Action onChanged = null)
+
+        #region INotifyPropertyChanged
+        protected bool SetProperty<T>(ref T backingStore, T value, [CallerMemberName] string propertyName = "", Action onChanged = null)
         {
             if (EqualityComparer<T>.Default.Equals(backingStore, value))
                 return false;
@@ -39,7 +46,6 @@ namespace AppUI.ViewModels
             return true;
         }
 
-        #region INotifyPropertyChanged
         public event PropertyChangedEventHandler PropertyChanged;
         protected void OnPropertyChanged([CallerMemberName] string propertyName = "")
         {
@@ -49,6 +55,7 @@ namespace AppUI.ViewModels
 
             changed.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
+
         #endregion
     }
 }

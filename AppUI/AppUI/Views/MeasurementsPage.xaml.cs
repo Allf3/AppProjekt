@@ -1,32 +1,32 @@
-﻿using AppUI.Models;
-using AppUI.ViewModels;
-using AppUI.Views;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using AppUI.ViewModels;
+
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
 namespace AppUI.Views
 {
-    public partial class ItemsPage : ContentPage
+    [XamlCompilation(XamlCompilationOptions.Compile)]
+    public partial class MeasurementsPage : ContentPage
     {
-        ItemsViewModel _viewModel;
+        MeasurementsViewModel _vm;
 
-        public ItemsPage()
+        public MeasurementsPage()
         {
             InitializeComponent();
 
-            BindingContext = _viewModel = new ItemsViewModel();
+            BindingContext = _vm = new MeasurementsViewModel();
         }
 
         protected override void OnAppearing()
         {
             base.OnAppearing();
-            _viewModel.OnAppearing();
+            _vm.OnAppearing();
         }
+
     }
 }

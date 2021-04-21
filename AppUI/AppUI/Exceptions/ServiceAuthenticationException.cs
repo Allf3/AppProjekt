@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Text;
 
-namespace DAL.Exceptions
+namespace AppUI.Exceptions
 {
     public class ServiceAuthenticationException : Exception
     {

@@ -1,5 +1,5 @@
-﻿using AppUI.Services;
-using AppUI.Views;
+﻿using AppUI.Repository;
+using AppUI.Services;
 using System;
 using TinyIoC;
 using Xamarin.Forms;
@@ -17,10 +17,14 @@ namespace AppUI
 
             var container = TinyIoCContainer.Current;
 
+            container.Register<IMeasurementService, MeasurementService>();
+
+            container.Register<IGenericRepository, GenericRepository>();
+
+            //container.Register<IGenericRepository, GenericRepository>();
+
             //container.Register<IMeasurementService, MeasurementService>();
 
-
-            DependencyService.Register<MockDataStore>();
             MainPage = new AppShell();
         }
 
