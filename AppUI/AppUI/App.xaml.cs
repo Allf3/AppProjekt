@@ -1,7 +1,9 @@
 ﻿using AppUI.Repository;
 using AppUI.Services;
+using MonkeyCache.SQLite;
 using System;
 using TinyIoC;
+using Xamarin.Essentials;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -16,6 +18,7 @@ namespace AppUI
 
 
             var container = TinyIoCContainer.Current;
+            Barrel.ApplicationId = AppInfo.PackageName;
 
             container.Register<IMeasurementService, MeasurementService>();
 

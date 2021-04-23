@@ -33,6 +33,13 @@ namespace AppUI.ViewModels
             set { SetProperty(ref title, value); }
         }
 
+        bool isConnected;
+        public bool IsConnected                     //
+        {
+            get => isConnected;
+            set { SetProperty(ref isConnected, value); }
+        }
+
 
         #region INotifyPropertyChanged
         protected bool SetProperty<T>(ref T backingStore, T value, [CallerMemberName] string propertyName = "", Action onChanged = null)

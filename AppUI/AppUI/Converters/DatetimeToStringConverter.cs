@@ -4,7 +4,7 @@ using System.Globalization;
 using System.Text;
 using Xamarin.Forms;
 
-namespace AppUI.Converter
+namespace AppUI.Converters
 {
     public class DatetimeToStringConverter : IValueConverter
     {
@@ -14,7 +14,9 @@ namespace AppUI.Converter
                 return string.Empty;
             var datetime = (DateTime)value;
 
-            return datetime.ToLocalTime().ToString();
+            culture = new CultureInfo("da-DK");
+
+            return datetime.ToString(culture);
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

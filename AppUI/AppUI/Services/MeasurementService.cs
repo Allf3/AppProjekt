@@ -1,11 +1,13 @@
 ﻿using AppUI.Constants;
 using AppUI.Models;
 using AppUI.Repository;
+using MonkeyCache.SQLite;
 using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 using TinyIoC;
+using Xamarin.Essentials;
 
 namespace AppUI.Services
 {
@@ -24,7 +26,21 @@ namespace AppUI.Services
             {
                 Path = ApiConstants.MeasurementEndPoint
             };
-            return await _repo.GetAsync<IEnumerable<Measurement>>(builder.ToString());
+
+            string urlkey = builder.ToString();
+
+            if (Connectivity.NetworkAccess == NetworkAccess.None)
+            {
+                return Barrel.Current.Get<IEnumerable<Measurement>>(key: urlkey);
+            }
+            if (!Barrel.Current.IsExpired(key: urlkey))
+            {
+                return Barrel.Current.Get<IEnumerable<Measurement>>(key: urlkey);
+            }
+            IEnumerable<Measurement> measurements = await _repo.GetAsync<IEnumerable<Measurement>>(urlkey);
+            //Saves to cache
+            Barrel.Current.Add(key: urlkey, data: measurements, expireIn: TimeSpan.FromSeconds(60));
+            return measurements;
         }
 
         public async Task<Measurement> GetMeasurementAsync(Guid Id)

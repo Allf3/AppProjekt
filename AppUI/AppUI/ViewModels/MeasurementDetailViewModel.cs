@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text;
+using System.Windows.Input;
 using Xamarin.Forms;
 
 namespace AppUI.ViewModels
@@ -35,12 +36,40 @@ namespace AppUI.ViewModels
         //private float Temperatur;
 
         private Measurement measurement;
-        #endregion
-
         public Measurement Measurement
         {
             get => measurement;
             set => SetProperty<Measurement>(ref measurement, value);
+        }
+
+        #endregion
+
+        #region Commands
+        public ICommand DeleteCMD { get; private set; }
+        #endregion
+
+        public MeasurementDetailViewModel()
+        {
+            DeleteCMD = new Command(DeleteItem);
+        }
+
+        private async void DeleteItem()
+        {
+            try
+            {
+                bool result = await _service.DeleteMeasurementAsync(measurement.ID);
+                if (result)
+                {
+                    MessagingCenter.Send<MeasurementDetailViewModel, Measurement>(this, nameof(DeleteCMD), measurement);
+
+                    //pops current stack
+                    await Shell.Current.GoToAsync("..");
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex);
+            }
         }
 
         private async void LoadItemId(string stringid)
