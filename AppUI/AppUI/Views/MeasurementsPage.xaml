@@ -7,7 +7,8 @@
              xmlns:model="clr-namespace:AppUI.Models"
              xmlns:converter="clr-namespace:AppUI.Converters"
              xmlns:controls="clr-namespace:AppUI.Controls"
-             >
+             xmlns:forms="clr-namespace:Microcharts.Forms;assembly=Microcharts.Forms">
+    
     <ContentPage.Resources>
         <ResourceDictionary>
             <converter:DatetimeToStringConverter x:Key="datetimeToStringConverter"/>
@@ -17,24 +18,35 @@
         <StackLayout>
             <controls:OfflineIndicator x:DataType="vm:BaseViewModel" IsVisible="{Binding IsConnected}" />
             <RefreshView x:DataType="vm:MeasurementsViewModel" Command="{Binding LoadMeasurementsCMD}" IsRefreshing="{Binding IsBusy, Mode=TwoWay}">
-                <CollectionView x:Name="MeasurementListView" ItemsSource="{Binding Measurements}" SelectionMode="None">
-                    <CollectionView.ItemTemplate>
-                        <DataTemplate>
-                            <StackLayout Padding="10" x:DataType="model:Measurement">
-                                <Label Text="{Binding Date, Converter={StaticResource datetimeToStringConverter}}" />
-                                <Label Text="{Binding Humidity}"/>
-                                <Label Text="{Binding Temperatur}"/>
-                                <StackLayout.GestureRecognizers>
-                                    <TapGestureRecognizer NumberOfTapsRequired="1"
+                <ScrollView>
+                    <StackLayout>
+                        <Frame BackgroundColor="LightSalmon">
+                            <StackLayout>
+                                <Label>Temperature &#176; C</Label>
+                                <forms:ChartView Chart="{Binding TemperatureChart}" HeightRequest="300"/>
+                            </StackLayout>
+                        </Frame>
+                        <CollectionView x:Name="MeasurementListView" ItemsSource="{Binding Measurements}" SelectionMode="None">
+                            <CollectionView.ItemTemplate>
+                                <DataTemplate>
+                                    <StackLayout Padding="10" x:DataType="model:Measurement">
+                                        <Label Text="{Binding Date, Converter={StaticResource datetimeToStringConverter}}" />
+                                        <Label Text="{Binding Humidity}"/>
+                                        <Label Text="{Binding Temperatur}"/>
+                                        <StackLayout.GestureRecognizers>
+                                            <TapGestureRecognizer NumberOfTapsRequired="1"
                                                       Command="{Binding Source={RelativeSource AncestorType={x:Type vm:MeasurementsViewModel}}, Path=MeasurementTapped}"
                                                       CommandParameter="{Binding .}">
 
-                                    </TapGestureRecognizer>
-                                </StackLayout.GestureRecognizers>
-                            </StackLayout>
-                        </DataTemplate>
-                    </CollectionView.ItemTemplate>
-                </CollectionView>
+                                            </TapGestureRecognizer>
+                                        </StackLayout.GestureRecognizers>
+                                    </StackLayout>
+                                </DataTemplate>
+                            </CollectionView.ItemTemplate>
+                        </CollectionView>
+                    </StackLayout>
+
+                </ScrollView>
             </RefreshView>
         </StackLayout>
     </ContentPage.Content>

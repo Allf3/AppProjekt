@@ -50,6 +50,7 @@ namespace AppUI.ViewModels
 
         public MeasurementDetailViewModel()
         {
+            Title = "Details";
             DeleteCMD = new Command(DeleteItem);
         }
 
@@ -79,7 +80,7 @@ namespace AppUI.ViewModels
             {
                 Measurement measurementfromDb = await _service.GetMeasurementAsync(Guid.Parse(stringid));
 
-                this.measurement = measurementfromDb;
+                Measurement = measurementfromDb;
 
                 //measurement.ID = measurementfromDb.ID;
                 //measurement.Date = measurementfromDb.Date;
@@ -91,6 +92,11 @@ namespace AppUI.ViewModels
             {
                 Debug.WriteLine("Failed to Load Measurement");
             }
+        }
+
+        public void OnAppearing()
+        {
+            IsBusy = true;           
         }
     }
 }

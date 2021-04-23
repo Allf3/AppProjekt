@@ -6,21 +6,31 @@ using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Text;
 using System.Threading.Tasks;
-//Commands
+using Entry = Microcharts.ChartEntry;
 using Xamarin.Forms;
 using AppUI.Views;
 using Xamarin.Essentials;
+using Microcharts;
+using SkiaSharp;
+using AppUI.Converters;
+using System.Globalization;
 
 namespace AppUI.ViewModels
 {
     public class MeasurementsViewModel : BaseViewModel
     {
         private Measurement selectedMeasurement;
-
         public ObservableCollection<Measurement> Measurements { get; }
-
         public Command LoadMeasurementsCMD { get; }
         public Command<Measurement> MeasurementTapped { get; }
+
+        private Chart temparatureChart;
+
+        public Chart TemperatureChart
+        {
+            get => temparatureChart;
+            set => SetProperty(ref temparatureChart, value);
+        }
 
         public MeasurementsViewModel()
         {
@@ -66,6 +76,7 @@ namespace AppUI.ViewModels
                     Measurements.Add(item);
                 }
 
+                PopulateANDgenerateChart(NewMeasurements);
             }
             catch(Exception ex)
             {
@@ -75,6 +86,30 @@ namespace AppUI.ViewModels
             {
                 IsBusy = false; //Tells rest of viewmodel it's done doing something.
             }
+        }
+
+        void PopulateANDgenerateChart(IEnumerable<Measurement> measurements)
+        {
+            List<Entry> TempEntries = new List<Entry>();
+            CultureInfo cultureInfo = new CultureInfo("da-DK");
+
+            foreach (var item in measurements)
+            {
+                TempEntries.Add(new Entry(item.Temperatur)
+                {
+                    Color = SKColor.Parse("#77d065"),
+                    Label = item.Date.ToString(cultureInfo),
+                    ValueLabel = item.Temperatur.ToString()
+                }) ;
+            }
+
+            TemperatureChart = new LineChart
+            {
+                Entries = TempEntries,
+                LabelTextSize = 32,
+                LineSize = 8
+            };
+
         }
 
         public void Dispose()

@@ -1,12 +1,21 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="AppUI.Views.MeasurementDetailPage">
+             xmlns:vm="clr-namespace:AppUI.ViewModels"
+             xmlns:converter="clr-namespace:AppUI.Converters"
+             x:Class="AppUI.Views.MeasurementDetailPage"
+             >
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <converter:DatetimeToStringConverter x:Key="datetimeToStringConverter"/>
+        </ResourceDictionary>
+    </ContentPage.Resources>
     <ContentPage.Content>
-        <StackLayout>
-            <Label Text="Welcome to Xamarin.Forms!"
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
+        <StackLayout Spacing="20" Padding="15">
+            <Label Text="{Binding Measurement.ID}" FontSize="Medium"/>
+            <Label Text="{Binding Measurement.Date, Converter={StaticResource datetimeToStringConverter}}" />
+            <Label Text="{Binding Measurement.Humidity}"/>
+            <Label Text="{Binding Measurement.Temperatur}"/>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

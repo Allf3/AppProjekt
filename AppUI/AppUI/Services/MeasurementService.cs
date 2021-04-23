@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 using TinyIoC;
+using System.Linq;
 using Xamarin.Essentials;
 
 namespace AppUI.Services
@@ -40,7 +41,7 @@ namespace AppUI.Services
             IEnumerable<Measurement> measurements = await _repo.GetAsync<IEnumerable<Measurement>>(urlkey);
             //Saves to cache
             Barrel.Current.Add(key: urlkey, data: measurements, expireIn: TimeSpan.FromSeconds(60));
-            return measurements;
+            return measurements.OrderBy(d => d.Date);
         }
 
         public async Task<Measurement> GetMeasurementAsync(Guid Id)

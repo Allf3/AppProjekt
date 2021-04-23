@@ -13,11 +13,19 @@ namespace AppUI.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class MeasurementDetailPage : ContentPage
     {
-        MeasurementDetailPage _vm;
+        MeasurementDetailViewModel _vm;
 
         public MeasurementDetailPage()
         {
             InitializeComponent();
+
+            BindingContext = _vm = new MeasurementDetailViewModel();
+        }
+
+        protected override void OnAppearing()
+        {
+            base.OnAppearing();
+            _vm.OnAppearing();
         }
     }
 }
