@@ -12,10 +12,10 @@
     </ContentPage.Resources>
     <ContentPage.Content>
         <StackLayout Spacing="20" Padding="15">
-            <Label Text="{Binding Measurement.ID}" FontSize="Medium"/>
+            <Label Text="{Binding Measurement.ID, StringFormat='ID: {0}'}" FontSize="Medium"/>
             <Label Text="{Binding Measurement.Date, Converter={StaticResource datetimeToStringConverter}}" />
-            <Label Text="{Binding Measurement.Humidity}"/>
-            <Label Text="{Binding Measurement.Temperatur}"/>
+            <Label Text="{Binding Measurement.Humidity, StringFormat='Humidity: {0}%'}"/>
+            <Label Text="{Binding Measurement.Temperatur, StringFormat='Temperatur: {0}°'}"/>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>
